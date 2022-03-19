@@ -13,7 +13,7 @@ class LGFX : public lgfx::LGFX_Device
 
   lgfx::Light_PWM     _light_instance;
 
-  //lgfx::Touch_XPT2046     _touch_instance;
+  lgfx::Touch_XPT2046     _touch_instance;
 
 public:
 
@@ -81,28 +81,28 @@ public:
       _panel_instance.setLight(&_light_instance);  // バックライトをパネルにセットします。
     }
 
-    //{ // タッチスクリーン制御の設定を行います。（必要なければ削除）
-      //auto cfg = _touch_instance.config();
+    { // タッチスクリーン制御の設定を行います。（必要なければ削除）
+      auto cfg = _touch_instance.config();
 
-      //cfg.x_min      = 0;    // タッチスクリーンから得られる最小のX値(生の値)
-      //cfg.x_max      = 239;  // タッチスクリーンから得られる最大のX値(生の値)
-      //cfg.y_min      = 0;    // タッチスクリーンから得られる最小のY値(生の値)
-      //cfg.y_max      = 319;  // タッチスクリーンから得られる最大のY値(生の値)
-      //cfg.pin_int    = 38;   // INTが接続されているピン番号
-      //cfg.bus_shared = true; // 画面と共通のバスを使用している場合 trueを設定
-      //cfg.offset_rotation = 0;// 表示とタッチの向きのが一致しない場合の調整 0~7の値で設定
+      cfg.x_min      = 0;    // タッチスクリーンから得られる最小のX値(生の値)
+      cfg.x_max      = 239;  // タッチスクリーンから得られる最大のX値(生の値)
+      cfg.y_min      = 0;    // タッチスクリーンから得られる最小のY値(生の値)
+      cfg.y_max      = 319;  // タッチスクリーンから得られる最大のY値(生の値)
+      cfg.pin_int    = 21;   // INTが接続されているピン番号
+      cfg.bus_shared = true; // 画面と共通のバスを使用している場合 trueを設定
+      cfg.offset_rotation = 0;// 表示とタッチの向きのが一致しない場合の調整 0~7の値で設定
 
 // SPI接続の場合
-      //cfg.spi_host = VSPI_HOST;// 使用するSPIを選択 (HSPI_HOST or VSPI_HOST)
-      //cfg.freq = 1000000;     // SPIクロックを設定
-      //cfg.pin_sclk = 18;     // SCLKが接続されているピン番号
-      //cfg.pin_mosi = 23;     // MOSIが接続されているピン番号
-      //cfg.pin_miso = 19;     // MISOが接続されているピン番号
-      //cfg.pin_cs   =  5;     //   CSが接続されているピン番号
+      cfg.spi_host = VSPI_HOST;// 使用するSPIを選択 (HSPI_HOST or VSPI_HOST)
+      cfg.freq = 1000000;     // SPIクロックを設定
+      cfg.pin_sclk = 18;     // SCLKが接続されているピン番号
+      cfg.pin_mosi = 23;     // MOSIが接続されているピン番号
+      cfg.pin_miso = 19;     // MISOが接続されているピン番号
+      cfg.pin_cs   =  5;     //   CSが接続されているピン番号
 
-      //_touch_instance.config(cfg);
-      //_panel_instance.setTouch(&_touch_instance);  // タッチスクリーンをパネルにセットします。
-    //}
+      _touch_instance.config(cfg);
+      _panel_instance.setTouch(&_touch_instance);  // タッチスクリーンをパネルにセットします。
+    }
 //*/
 
     setPanel(&_panel_instance); // 使用するパネルをセットします。

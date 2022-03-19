@@ -20,7 +20,7 @@
 #endif
 #include <algorithm>
 
-LGFX tft;
+LGFX lcd;
 
 extern const unsigned short info[];
 extern const unsigned short alert[];
