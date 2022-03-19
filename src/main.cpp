@@ -1,10 +1,15 @@
-
-#if defined(ESP32)
-
 #define LGFX_USE_V1
 
 #include <LovyanGFX.h>
-#include <DisplayConfig.h>
+
+#ifdef DISPLAY_CONFIG_BLUE
+	#include <DisplayConfigBlue.h>
+#endif
+
+#ifdef DISPLAY_CONFIG_RED
+	#include <DisplayConfigRed.h>
+#endif
+
 #include <LGFX_TFT_eSPI.h>
 
 #ifdef min
@@ -16,17 +21,6 @@
 #include <algorithm>
 
 LGFX tft;
-
-#elif defined(ARDUINO_ARCH_RP2040)
-
-#include "SPI.h"
-#include "TFT_eSPI.h"
-
-TFT_eSPI tft = TFT_eSPI();
-
-#else
-	#error Unsupported architecture!
-#endif
 
 
 unsigned long total = 0;

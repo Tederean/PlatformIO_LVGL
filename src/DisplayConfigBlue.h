@@ -11,10 +11,6 @@ class LGFX : public lgfx::LGFX_Device
 
 	lgfx::Bus_Parallel8 _bus_instance;
 
-  lgfx::Light_PWM _light_instance;
-
-	lgfx::Touch_XPT2046 _touch_instance;
-
 public:
 
   LGFX(void)
@@ -63,33 +59,6 @@ public:
       cfg.bus_shared       =  true;  // SDカードとバスを共有している場合 trueに設定(drawJpgFile等でバス制御を行います)
 
       _panel_instance.config(cfg);
-    }
-
-    //{
-    //  auto cfg = _light_instance.config();    // バックライト設定用の構造体を取得します。
-    //
-    //  cfg.pin_bl = 32;              // バックライトが接続されているピン番号
-    //  cfg.invert = false;           // バックライトの輝度を反転させる場合 true
-    //  cfg.freq   = 44100;           // バックライトのPWM周波数
-    //  cfg.pwm_channel = 7;          // 使用するPWMのチャンネル番号
-
-    //  _light_instance.config(cfg);
-    //  _panel_instance.setLight(&_light_instance);  // バックライトをパネルにセットします。
-    //}
-
-    {
-      auto cfg = _touch_instance.config();
-
-      cfg.x_min      = 0;    // タッチスクリーンから得られる最小のX値(生の値)
-      cfg.x_max      = 239;  // タッチスクリーンから得られる最大のX値(生の値)
-      cfg.y_min      = 0;    // タッチスクリーンから得られる最小のY値(生の値)
-      cfg.y_max      = 319;  // タッチスクリーンから得られる最大のY値(生の値)
-      cfg.pin_int    = 38;   // INTが接続されているピン番号
-      cfg.bus_shared = true; // 画面と共通のバスを使用している場合 trueを設定
-      cfg.offset_rotation = 0;// 表示とタッチの向きのが一致しない場合の調整 0~7の値で設定
-
-      _touch_instance.config(cfg);
-      _panel_instance.setTouch(&_touch_instance);
     }
 
     setPanel(&_panel_instance);
