@@ -21,11 +21,12 @@ static lv_disp_draw_buf_t _DisplayBuffer;
 static lv_color_t _ByteBuffer[ ScreenWidth * 10 ];
 
 static lv_disp_drv_t _DisplayDriver;
+#ifdef DISPLAY_CONFIG_RED
 static lv_indev_drv_t _IndevDriver;
+#endif
 
-static uint8_t counter = 0;
 
-
+#ifdef DISPLAY_CONFIG_RED
 void OnReadDigitizer(lv_indev_drv_t *indevDriver, lv_indev_data_t *data)
 {
    uint16_t touchX, touchY;
@@ -44,6 +45,7 @@ void OnReadDigitizer(lv_indev_drv_t *indevDriver, lv_indev_data_t *data)
       data->state = LV_INDEV_STATE_REL;
    }
 }
+#endif
 
 void OnDisplayFlush(lv_disp_drv_t *displayDriver, const lv_area_t *screenArea, lv_color_t *colorsPointer)
 {
@@ -59,30 +61,18 @@ void OnDisplayFlush(lv_disp_drv_t *displayDriver, const lv_area_t *screenArea, l
    lv_disp_flush_ready(displayDriver);
 }
 
-void OnButtonTapEvent(lv_event_t *event)
-{
-   auto code = lv_event_get_code(event);
-    
-   if (code == LV_EVENT_CLICKED)
-   {
-      auto *button = lv_event_get_target(event);
-      auto *label = lv_obj_get_child(button, 0);
-
-      counter++;
-
-      lv_label_set_text_fmt(label, "Button: %d", counter);
-   }
-}
-
 void InitializeLvgl()
 {
    tft.begin();        
    tft.setRotation(1);
    tft.setBrightness(255);
 
+#ifdef DISPLAY_CONFIG_RED
    uint16_t calData[] = { 239, 3926, 233, 265, 3856, 3896, 3714, 308 };
 
    tft.setTouchCalibrate(calData);
+#endif
+
 
    lv_init();
    lv_disp_draw_buf_init(&_DisplayBuffer, _ByteBuffer, NULL, ScreenWidth * 10);
@@ -98,26 +88,26 @@ void InitializeLvgl()
    lv_disp_drv_register(&_DisplayDriver);
 
 
+#ifdef DISPLAY_CONFIG_RED
    lv_indev_drv_init(&_IndevDriver);
 
    _IndevDriver.type = LV_INDEV_TYPE_POINTER;
    _IndevDriver.read_cb = OnReadDigitizer;
 
    lv_indev_drv_register(&_IndevDriver);
+   #endif
 }
 
 void CreateGui()
 {
-   auto *button = lv_btn_create(lv_scr_act());
+   auto *arc = lv_arc_create(lv_scr_act());
 
-   lv_obj_set_size(button, 120, 50);
-   lv_obj_align(button, LV_ALIGN_CENTER, 0,0);
-   lv_obj_add_event_cb(button, OnButtonTapEvent, LV_EVENT_ALL, NULL);
+   lv_arc_set_end_angle(arc, 200);
+   lv_obj_set_size(arc, 150, 150);
+   lv_obj_align(arc, LV_ALIGN_CENTER, 0, 0);
 
-   auto *label = lv_label_create(button);
-
-   lv_label_set_text(label, "Button");
-   lv_obj_center(label);
+   lv_arc_set_range(arc, 0, 105);
+   lv_arc_set_value(arc, 75);
 }
 
 void loop()
