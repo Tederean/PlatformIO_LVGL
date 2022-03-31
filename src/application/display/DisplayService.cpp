@@ -10,6 +10,10 @@
 	#include <application/display/DisplayConfigRed.h>
 #endif
 
+#ifdef DISPLAY_CONFIG_LARGE
+	#include <application/display/DisplayConfigLarge.h>
+#endif
+
 #include <lvgl.h>
 #include <application/display/DisplayService.h>
 #include <framework/services/SystemService.h>
@@ -25,9 +29,21 @@ namespace Services
 
     const timespan_t LvglRenderInterval_us = 5 * 1000;
 
+#if DISPLAY_RESOLUTION_240_320
+
     static const uint32_t ScreenWidth  = 320;
 
     static const uint32_t ScreenHeight = 240;
+
+#endif
+
+#ifdef DISPLAY_RESOLUTION_800_480
+
+    static const uint32_t ScreenWidth  = 800;
+
+    static const uint32_t ScreenHeight = 480;
+
+#endif
 
 
     LGFX tft;
@@ -41,7 +57,7 @@ namespace Services
 
     static lv_disp_drv_t DisplayDriver;
 
-#ifdef DISPLAY_CONFIG_RED
+#ifdef DISPLAY_DIGITIZER
     static lv_indev_drv_t DigitizerDriver;
 #endif
 
@@ -52,7 +68,7 @@ namespace Services
 
     void OnDisplayFlush(lv_disp_drv_t *displayDriver, const lv_area_t *screenArea, lv_color_t *colorsPointer);
 
-#ifdef DISPLAY_CONFIG_RED
+#ifdef DISPLAY_DIGITIZER
     void OnReadDigitizer(lv_indev_drv_t *indevDriver, lv_indev_data_t *data);
 #endif
 
@@ -64,7 +80,7 @@ namespace Services
       tft.setRotation(1);
       tft.setBrightness(255);
 
-#ifdef DISPLAY_CONFIG_RED
+#ifdef DISPLAY_DIGITIZER
       uint16_t calData[] = { 239, 3926, 233, 265, 3856, 3896, 3714, 308 };
 
       tft.setTouchCalibrate(calData);
@@ -85,7 +101,7 @@ namespace Services
       lv_disp_drv_register(&DisplayDriver);
 
 
-#ifdef DISPLAY_CONFIG_RED
+#ifdef DISPLAY_DIGITIZER
       lv_indev_drv_init(&DigitizerDriver);
 
       DigitizerDriver.type = LV_INDEV_TYPE_POINTER;
@@ -118,7 +134,7 @@ namespace Services
       lv_disp_flush_ready(displayDriver);
     }
 
-#ifdef DISPLAY_CONFIG_RED
+#ifdef DISPLAY_DIGITIZER
     void OnReadDigitizer(lv_indev_drv_t *indevDriver, lv_indev_data_t *data)
     {
       uint16_t touchX, touchY;
