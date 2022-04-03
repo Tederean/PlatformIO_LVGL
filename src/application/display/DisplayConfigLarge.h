@@ -11,9 +11,9 @@ class LGFX : public lgfx::LGFX_Device
 
   lgfx::Bus_Parallel8 _bus_instance;
 
-  lgfx::Light_PWM _light_instance;
+  //lgfx::Light_PWM _light_instance;
 
-  lgfx::Touch_XPT2046 _touch_instance;
+  //lgfx::Touch_XPT2046 _touch_instance;
 
 
 public:
@@ -54,7 +54,7 @@ public:
       cfg.panel_height     =   480;
       cfg.offset_x         =     0;
       cfg.offset_y         =     0;
-      cfg.offset_rotation  =     0;
+      cfg.offset_rotation  =     1;
       cfg.dummy_read_pixel =     8;
       cfg.dummy_read_bits  =     1;
       cfg.readable         =  true;
@@ -66,39 +66,39 @@ public:
       _panel_instance.config(cfg);
     }
 
-    {
-      auto cfg = _light_instance.config();
+    //{
+    //  auto cfg = _light_instance.config();
+    //
+    //  cfg.pin_bl = 32;
+    //  cfg.invert = true;
+    //  cfg.freq   = 44100;
+    //  cfg.pwm_channel = 7;
+    //
+    //  _light_instance.config(cfg);
+    //  _panel_instance.setLight(&_light_instance);
+    //}
 
-      cfg.pin_bl = 32;
-      cfg.invert = false;
-      cfg.freq   = 44100;
-      cfg.pwm_channel = 7;
-
-      _light_instance.config(cfg);
-      _panel_instance.setLight(&_light_instance);
-    }
-
-    {
-      auto cfg = _touch_instance.config();
-
-      cfg.x_min      = 0;
-      cfg.x_max      = 239;
-      cfg.y_min      = 0;
-      cfg.y_max      = 319;
-      cfg.pin_int    = 21;
-      cfg.bus_shared = true;
-      cfg.offset_rotation = 0;
-
-      cfg.spi_host = VSPI_HOST;
-      cfg.freq = 1000000;
-      cfg.pin_sclk = 18;
-      cfg.pin_mosi = 23;
-      cfg.pin_miso = 19;
-      cfg.pin_cs   =  5;
-
-      _touch_instance.config(cfg);
-      _panel_instance.setTouch(&_touch_instance);
-    }
+    //{
+    //  auto cfg = _touch_instance.config();
+    //
+    //  cfg.x_min      = 0;
+    //  cfg.x_max      = 239;
+    //  cfg.y_min      = 0;
+    //  cfg.y_max      = 319;
+    //  cfg.pin_int    = 21;
+    //  cfg.bus_shared = true;
+    //  cfg.offset_rotation = 0;
+    //
+    //  cfg.spi_host = VSPI_HOST;
+    //  cfg.freq = 1000000;
+    //  cfg.pin_sclk = 18;
+    //  cfg.pin_mosi = 23;
+    //  cfg.pin_miso = 19;
+    //  cfg.pin_cs   =  5;
+    //
+    //  _touch_instance.config(cfg);
+    //  _panel_instance.setTouch(&_touch_instance);
+    //}
 
     setPanel(&_panel_instance);
   }
